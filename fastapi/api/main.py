@@ -38,3 +38,11 @@ def create_user(user: schemas.UserCreate, db: Session=Depends(get_db)):
     raise HTTPException(status_code=400, detail='Email already registered')
 
   return crud.create_user(db=db, user=user)
+
+@app.patch("/user/{id}", response_model=schemas.User)
+def update_user_info(id: int, user: schemas.UserUpdate, db: Session = Depends(get_db)):
+  db_user = crud.get_user_by_id(db, id)
+  if not db_user:
+    raise HTTPException(status_code=400, detail='No id associated with user found')
+  
+  return crud.update_user(id=id, user=user, db=db)

@@ -18,4 +18,4 @@ class User(Base):
     __tablename__ = 'forms'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
-    page = Column(Integer, unique=False)
+    page = Column(Integer)

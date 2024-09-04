@@ -1,18 +1,29 @@
 # Environment variables
 .env
+.env*.local
 
-# Virtual environment
+# FastAPI-specific files
 .venv/
 venv/
-
-# Compiled Python files
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-
-# Database files
 *.sqlite3
+
+# Next.js-specific files
+.next/
+out/
+node_modules/
+.pnp/
+.pnp.js
+.yarn/install-state.gz
+
+# Build and dependency directories
+dist/
+build/
+*.egg-info/
+*.egg/
 
 # IDE and editor settings
 .vscode/
@@ -25,17 +36,19 @@ __pycache__/
 *.log
 *.tmp
 *.temp
-
-# Build and dependency directories
-node_modules/
-dist/
-build/
-*.egg-info/
-*.egg/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# Testing
+/coverage
+
+# Production
+build
 
 # Other configuration files
 .pytest_cache/
@@ -43,37 +56,9 @@ Thumbs.db
 *.coverage
 *.local
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env*.local
-
-# vercel
+# Vercel
 .vercel
 
-# typescript
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts

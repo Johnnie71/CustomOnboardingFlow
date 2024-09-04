@@ -29,20 +29,16 @@ def get_user_by_id(db: Session, id: int):
 def get_user_by_email(db: Session, email: str):
   return db.query(models.User).filter(models.User.email == email).first()
 
-def update_user(id: int, user: schemas.UserUpdate, db: Session):
-  db_user = db.query(models.User).filter(models.User.id == id).first()
-  if not db_user:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
-  
-  update_data = user.model_dump(exclude_unset=True)
+def update_user(user: schemas.User, updates: schemas.UserUpdate, db: Session):
+  update_data = updates.model_dump(exclude_unset=True)
 
   for key, value in update_data.items():
-    setattr(db_user, key, value)
+    setattr(user, key, value)
   
   db.commit()
-  db.refresh(db_user)
+  db.refresh(user)
   
-  return db_user
+  return user
 
 ## Form CRUD ##
 def create_form(form: schemas.FormCreate, db: Session):

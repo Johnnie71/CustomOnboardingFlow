@@ -19,7 +19,10 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.refresh(db_user)
   except BaseException as e:
     db.rollback()
-    return {"status": 'failed', "message": f'Failed to create user: {e}'}
+    raise HTTPException(
+      status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+      detail=f'Failed to create user: {e}'
+    )
 
   return db_user
 
@@ -53,7 +56,10 @@ def create_form(form: schemas.FormCreate, db: Session):
     db.refresh(db_form)
   except BaseException as e:
     db.rollback()
-    return {"status": 'failed', "message": f'Failed to create form: {e}'}
+    raise HTTPException(
+      status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+      detail=f'Failed to create form: {e}'
+    )
   
   return db_form
 
@@ -71,6 +77,9 @@ def update_form_page(form: schemas.Form, page: int, db: Session):
     db.refresh(form)
   except BaseException as e:
     db.rollback()
-    return {"status": 'failed', "message": f'Failed to update form page: {e}'}
+    raise HTTPException(
+      status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+      detail=f'Failed to update the forms page: {e}'
+    )
   
   return form

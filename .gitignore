@@ -1,0 +1,44 @@
+# Environment variables
+.env
+
+# Virtual environment
+.venv/
+venv/
+
+# Compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Database files
+*.sqlite3
+
+# IDE and editor settings
+.vscode/
+.idea/
+.project
+.classpath
+.settings/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Build and dependency directories
+node_modules/
+dist/
+build/
+*.egg-info/
+*.egg/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Other configuration files
+.pytest_cache/
+.coverage
+*.coverage
+*.local

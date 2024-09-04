@@ -13,3 +13,9 @@ class User(Base):
   city = Column(String(100))    
   state = Column(String(100))   
   zip_code = Column(String(20))
+
+  class Forms(Base):
+    __tablename__ = 'forms'
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, index=True)
+    page = Column(Integer, unique=False)

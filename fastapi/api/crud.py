@@ -26,6 +26,9 @@ def create_user(db: Session, user: schemas.UserCreate):
 
   return db_user
 
+def get_users(db: Session):
+  return db.query(models.User).all()
+
 def get_user_by_id(db: Session, id: int):
   return db.query(models.User).filter(models.User.id == id).first()
 

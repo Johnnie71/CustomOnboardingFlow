@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from utils import hash_password
 import models
@@ -7,7 +7,7 @@ from database import engine
 
 ## User CRUD ##
 def create_user(db: Session, user: schemas.UserCreate):
-  password = hash_password(user.hashed_password)
+  password = hash_password(user.password)
   db_user = models.User(
     email=user.email,
     hashed_password=password

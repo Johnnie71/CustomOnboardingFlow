@@ -13,7 +13,7 @@ class UserBase(BaseModel):
     zip_code: Optional[str] = None
 
 class UserCreate(UserBase):
-    hashed_password: str
+    password: str
 
 class User(UserBase):
     id: int

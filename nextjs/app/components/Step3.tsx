@@ -6,7 +6,7 @@ import AddressForm from './forms/AddressForm'
 import BirthdayForm from './forms/BirthdayForm'
 
 const Step3 = () => {
-  const { user, handleUpdateUser, onHandleBack } = useFormState()
+  const { user, handleUpdateUser, onHandleBack, step } = useFormState()
   const [formData, setFormData] = useState(user || {})
   const [errors, setErrors] = useState<string[] | []>([])
   const [requiredFields, setRequiredFields] = useState<string[] | []>([]) 
@@ -48,6 +48,7 @@ const Step3 = () => {
 
   return (
     <div className='w-full text-black flex flex-col justify-center items-center'>
+      <h1 className='font-extrabold mb-2 text-center'>Step {step}</h1>
       <div>
         <AddressForm handleChange={handleChange} formData={formData} setRequiredFields={setRequiredFields} />
         <BirthdayForm handleChange={handleChange} formData={formData} setRequiredFields={setRequiredFields}/>

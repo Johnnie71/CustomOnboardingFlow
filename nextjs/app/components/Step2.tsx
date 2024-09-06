@@ -5,7 +5,7 @@ import AboutMeForm from './forms/AboutMeForm'
 import apiClient from '../lib/apiClient'
 
 const Step2 = () => {
-  const { user, handleUpdateUser, onHandleNext} = useFormState()
+  const { user, handleUpdateUser, onHandleNext, step } = useFormState()
   const [formData, setFormData] = useState(user || {})
   const [errors, setErrors] = useState<string[] | []>([])
   const [requiredFields, setRequiredFields] = useState<string[] | []>([]) 
@@ -49,6 +49,7 @@ const Step2 = () => {
 
   return (
     <div className='w-full text-black flex flex-col justify-center items-center'>
+      <h1 className='font-extrabold mb-2 text-center'>Step {step}</h1>
       <div>
         <AboutMeForm handleChange={handleChange} formData={formData} setRequiredFields={setRequiredFields} />
         {errors.length > 0 && (

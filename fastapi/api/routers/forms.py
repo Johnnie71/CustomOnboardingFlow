@@ -14,6 +14,10 @@ def create_form(form: schemas.FormCreate, db: Session = Depends(get_db)):
   
   return crud.create_form(form=form, db=db)
 
+@router.get('/', response_model=list[schemas.Form])
+def get_forms(db: Session = Depends(get_db)):
+  return crud.get_forms(db=db)
+
 @router.patch("/{id}", response_model=schemas.Form)
 def update_form_page(id: int, page: int, db: Session = Depends(get_db)):
   db_form = crud.get_form_by_id(id=id, db=db)

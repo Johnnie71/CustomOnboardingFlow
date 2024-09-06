@@ -66,6 +66,9 @@ def create_form(form: schemas.FormCreate, db: Session):
   
   return db_form
 
+def get_forms(db: Session):
+  return db.query(models.Form).all()
+
 def get_form_by_id(id: int, db: Session):
   return db.query(models.Form).filter(models.Form.id == id).first()
 

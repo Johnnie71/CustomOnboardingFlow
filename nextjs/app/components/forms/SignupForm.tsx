@@ -1,26 +1,21 @@
 'use client'
-import React, { useState, ChangeEvent, HTMLFactory } from 'react'
+import React, { useState, ChangeEvent } from 'react'
 import { validateEmail } from '@/app/lib/helpers'
 import apiClient from '@/app/lib/apiClient'
+import { User, useFormState } from '../FormContext'
 
-interface Step1Props {
-  onNext: () => void; // Function to move to next step
-  onChange: (data: { [key: string]: string}) => void // Handling form data changes
-}
-
-const SignUpForm: React.FC<Step1Props> = ({ onNext, onChange}) => {
+const SignUpForm: React.FC = () => {
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     reEnterPassword: ''
   })
-
   const [error, setError] = useState<string[] | []>([])
+  const { handleSetUser, onHandleNext } = useFormState()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-
     setFormData({...formData, [name]: value});
   }
 
@@ -49,18 +44,21 @@ const SignUpForm: React.FC<Step1Props> = ({ onNext, onChange}) => {
       return
     }
 
+    // Checking if they match
     if (password !== reEnterPassword) {
       setError((prevErrors) => [...prevErrors, "Passwords must match"])
       return
     }
 
     try{
-      const response = await apiClient.post('/users', {
+      const response = await apiClient.post<User>('/users', {
         email,
         password
       })
 
-      console.log(`User created: ${response.data}`)
+      handleSetUser(response.data)
+      console.log(`User created: ${Object.entries(response.data)}`)
+      onHandleNext()
     } catch (err) {
       setError((prevError) => [...prevError, 'Failed to create user'])
       console.error(`API error: ${err}`)
@@ -69,8 +67,8 @@ const SignUpForm: React.FC<Step1Props> = ({ onNext, onChange}) => {
   }
   
   return (
-  <form onSubmit={handleSubmit} className='text-black flex flex-col w-[30%] rounded-lg'>
-    <div className='flex flex-col w-full px-4 py-2'>
+  <form onSubmit={handleSubmit} className='text-black w-full'>
+    <div className='flex flex-col px-4 py-2'>
       <label htmlFor='email' className='font-bold'>Email</label>
       <input 
         type='email' 

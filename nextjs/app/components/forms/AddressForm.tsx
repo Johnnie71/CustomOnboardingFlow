@@ -1,9 +1,85 @@
-import React from 'react'
+'use client'
+import React, { ChangeEvent, useEffect, Dispatch, SetStateAction } from 'react'
+import { User } from '../FormContext'
 
-const AddressForm = () => {
+interface IProps {
+  formData: User
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void,
+  setRequiredFields: Dispatch<SetStateAction<string[]>>
+}
+
+const AddressForm: React.FC<IProps> = ({ handleChange, setRequiredFields, formData }) => {
+
+  const fields = ['street_address', 'city', 'state', 'zip_code']
+  useEffect(() => { 
+    setRequiredFields(prevFields => {
+
+        const updatedFields = [...prevFields]
+
+        fields.forEach(field => {
+          if (!updatedFields.includes(field)) {
+            updatedFields.push(field)
+          }
+        })
+
+        return updatedFields
+      })
+  }, [setRequiredFields])
+  
   return (
-    <div>AddressForm</div>
-  )
+  <form className='text-black w-full'>
+    <div className='flex flex-col px-4 py-2'>
+      <label htmlFor='street_address' className='font-bold'>Street Address</label>
+      <input 
+        type='text' 
+        name='street_address' 
+        placeholder='Street Address' 
+        value={formData.street_address || ''} 
+        onChange={handleChange}
+        required
+        className='border border-gray-500 rounded-md p-2 bg-gray-100'
+      />
+    </div>
+    <div className='flex flex-col w-full px-4 py-2'>
+      <label htmlFor='city' className='font-bold'>City</label>
+      <input 
+        type='text' 
+        name='city' 
+        placeholder='City' 
+        value={formData.city || ''} 
+        onChange={handleChange}
+        required
+        className='border border-gray-500 rounded-md p-2 bg-gray-100'
+      />
+    </div>
+    <div className='flex flex-col w-full px-4 py-2'>
+      <label htmlFor='state' className='font-bold'>State</label>
+      <input 
+        type='text' 
+        name='state' 
+        placeholder='State' 
+        value={formData.state || ''} 
+        onChange={handleChange}
+        required
+        className='border border-gray-500 rounded-md p-2 bg-gray-100'
+      />
+    </div>
+    <div className='flex flex-col w-full px-4 py-2'>
+      <label htmlFor='zip_code' className='font-bold'>Zip Code</label>
+      <input 
+        type='text' 
+        name='zip_code' 
+        placeholder='Zip Code'
+        pattern="[0-9]{5}"
+        maxLength={5}
+        value={formData.zip_code || ''} 
+        onChange={handleChange}
+        required
+        className='border border-gray-500 rounded-md p-2 bg-gray-100'
+      />
+    </div>
+  </form>
+)
 }
 
 export default AddressForm

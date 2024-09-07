@@ -2,26 +2,34 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react'
 import apiClient from '../lib/apiClient'
 import { Form } from '../components/FormContext'
+import Loader from '../components/Loader'
 
 const AdminPage = () => {
   const [forms, setForms] = useState<Form[] | []>([])
   const [error, setError] = useState<string | null>(null)
   const [hasChanges, setHasChanges] = useState(false)
+  const [loadState, setLoadState] = useState({
+    loading: false,
+    error: false
+  })
 
   const sortedByName = (data: Form[]) => {
     return data.sort((a, b) => a.name.localeCompare(b.name))
   }
 
   useEffect(() => {
-
     const fetchForms = async () => {
+      setLoadState({ loading: true, error: false });
       try{
         const response = await apiClient.get<Form[]>('/forms')
         const sortedData = sortedByName(response.data)
         setForms(sortedData)
       } catch(e) {
         console.error(`Failed to load forms: ${e}`)
+        setLoadState({ loading: false, error: true });
       }
+
+      setLoadState({ loading: false, error: false });
     }
 
     fetchForms()
@@ -59,7 +67,7 @@ const AdminPage = () => {
     if(error) {
       setError('')
     }
-    
+
     try {
       const response = await apiClient.put(`/forms`, forms)
       const sortedData = sortedByName(response.data)
@@ -70,6 +78,18 @@ const AdminPage = () => {
       setError(`Failed to update forms!`)
       console.error(`Failed to update forms: ${e}`)
     }
+  }
+
+  if (loadState.loading) {
+    return <Loader />
+  }
+
+  if (loadState.error) {
+    return (
+      <div className='h-screen flex justify-center items-center'>
+        <p className='text-red-500 text-center h-scree'>An error occurred while loading the data. Please try again later...</p>
+      </div>
+    );
   }
   
   return (

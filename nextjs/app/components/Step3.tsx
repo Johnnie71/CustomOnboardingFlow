@@ -1,57 +1,24 @@
 'use client'
-import React, { useState, ChangeEvent, FormEvent } from 'react'
-import { User, useFormState } from '@/app/components/FormContext'
-import apiClient from '../lib/apiClient'
-import AddressForm from './forms/AddressForm'
-import BirthdayForm from './forms/BirthdayForm'
+import React, { FormEvent } from 'react'
+import { useFormState } from '@/app/components/FormContext'
 
-const Step3 = () => {
-  const { user, handleUpdateUser, onHandleBack, step } = useFormState()
-  const [formData, setFormData] = useState(user || {})
-  const [errors, setErrors] = useState<string[] | []>([])
-  const [requiredFields, setRequiredFields] = useState<string[] | []>([]) 
+interface IProps {
+  forms: React.ReactElement[],
+  errors: string[]
+  handleSubmit: (lastStep: boolean) => void
+}
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData({...formData, [name]: value});
-  }
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-
-    setErrors([])
-
-    const newErrors: string[] = []
-    for (const field of requiredFields) {
-      const value = (formData as any)[field]
-      if (!value || (typeof value == 'string' && !value.trim())){ // if value is null or whitespace create an error
-        newErrors.push(`Enter something for ${field} field`)
-      }
-    }
-
-    if (newErrors.length > 0) {
-      setErrors(newErrors)
-      return
-    }
-    try{
-      const response = await apiClient.patch<User>(`/users/${user?.id}`, {
-        ...formData
-      })
-
-      handleUpdateUser(response.data)
-      console.log(`User user updated: ${Object.entries(response.data)}`)
-    } catch (err) {
-      setErrors((prevError) => [...prevError, 'Failed to update user'])
-      console.error(`API error: ${err}`)
-    }
-  }
+const Step3: React.FC<IProps> = ({forms, errors, handleSubmit}) => {
+  const { onHandleBack } = useFormState()
 
   return (
     <div className='w-full text-black flex flex-col justify-center items-center'>
-      <h1 className='font-extrabold mb-2 text-center'>Step {step}</h1>
-      <div>
-        <AddressForm handleChange={handleChange} formData={formData} setRequiredFields={setRequiredFields} />
-        <BirthdayForm handleChange={handleChange} formData={formData} setRequiredFields={setRequiredFields}/>
+      <h1 className='font-extrabold mb-2 text-center'>Step 3</h1>
+        {forms.map((form, idx) => (
+            <div key={idx} className="w-full px-2"> {/* Unique key and some spacing between forms */}
+              {form}
+            </div>
+          ))}
         {errors.length > 0 && (
           <div className='text-center text-red-600 font-mono'>
             {errors.map((error, idx) => (
@@ -59,20 +26,19 @@ const Step3 = () => {
             ))}
           </div>
         )}
-        <div className='flex justify-between items-center  p-4'>
+        <div className='flex justify-around items-center py-2 w-full'>
           <button 
-            className='w-24 h-12 bg-green-950 hover:bg-green-800 text-white rounded'
+            className='w-28 h-12 bg-green-950 hover:bg-green-800 text-white rounded-xl'
             onClick={onHandleBack}
           >
             Back
           </button>
           <button 
-            className='w-24 h-12 bg-green-950 hover:bg-green-800 text-white rounded'
-            onClick={handleSubmit}
+            className='w-28 h-12 bg-green-950 hover:bg-green-800 text-white rounded-xl'
+            onClick={() => handleSubmit(true)}
           >
             Submit
           </button>
-        </div>
       </div>
     </div>
   )

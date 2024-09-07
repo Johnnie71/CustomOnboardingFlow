@@ -1,23 +1,35 @@
 'use client'
-import { createContext, ReactNode, useContext, useState } from "react";
+import React, { createContext, ReactNode, useContext, useState } from "react";
 
 interface IProps {
   children: ReactNode;
 }
 
-export interface User {
+interface FormData {
+  about?: string;
+  birthday?: string;
+  street_address?: string;
+  city?: string;
+  state?: string;
+  zip_code?: string;
+  id?: number;
+}
+
+export interface User extends FormData {
   id?: number,
   email?: string,
-  about?: string,
-  birthday?: string,
-  street_address?: string
-  city?: string
-  state?: string
-  zip_code?: string
+}
+
+export interface Form {
+  id: number,
+  page: number,
+  name: string
 }
 
 interface IFormContext {
   user: User | null;
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   handleSetUser: (user: User) => void;
   handleUpdateUser: (user: User) => void;
   onHandleNext: () => void;
@@ -30,6 +42,15 @@ const FormContext = createContext<IFormContext | undefined>(undefined)
 export const FormProvider = ({ children }: IProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [step, setStep] = useState<number>(1);
+  const [formData, setFormData] = useState<FormData>({
+    about: '',
+    birthday: '',
+    street_address: '',
+    city: '',
+    state: '',
+    zip_code: '',
+    id: 0
+  });
 
   const onHandleNext = () => {
     setStep((prevValue) => prevValue + 1)
@@ -48,7 +69,7 @@ export const FormProvider = ({ children }: IProps) => {
   }
   
   return (
-    <FormContext.Provider value={{ onHandleBack, onHandleNext, handleSetUser, handleUpdateUser, step, user }}>
+    <FormContext.Provider value={{ onHandleBack, onHandleNext, handleSetUser, handleUpdateUser, step, user, formData, setFormData }}>
       {children}
     </FormContext.Provider>
   )

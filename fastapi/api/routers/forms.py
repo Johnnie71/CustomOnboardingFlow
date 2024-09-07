@@ -1,4 +1,4 @@
-from fastapi import  APIRouter, HTTPException, Depends
+from fastapi import  APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
 import schemas
 import crud
@@ -18,10 +18,17 @@ def create_form(form: schemas.FormCreate, db: Session = Depends(get_db)):
 def get_forms(db: Session = Depends(get_db)):
   return crud.get_forms(db=db)
 
-@router.patch("/{id}", response_model=schemas.Form)
-def update_form_page(id: int, page: int, db: Session = Depends(get_db)):
-  db_form = crud.get_form_by_id(id=id, db=db)
-  if not db_form:
-    raise HTTPException(status_code=400, detail='No id associated with the form found')
-  
-  return crud.update_form_page(form=db_form, page=page, db=db)
+@router.put("/", response_model=list[schemas.FormUpdate])
+def update_forms_pages(forms: list[schemas.FormUpdate], db: Session = Depends(get_db)):
+  form_ids = [form.id for form in forms]
+  db_forms = crud.get_forms_by_ids(form_ids, db)
+
+  if len(db_forms) != len(forms):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Some forms not found"
+        )
+
+  updated_db_forms = crud.update_form_pages(db_forms=db_forms, forms=forms, db=db)
+
+  return updated_db_forms

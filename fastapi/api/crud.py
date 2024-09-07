@@ -69,23 +69,32 @@ def create_form(form: schemas.FormCreate, db: Session):
 def get_forms(db: Session):
   return db.query(models.Form).all()
 
-def get_form_by_id(id: int, db: Session):
-  return db.query(models.Form).filter(models.Form.id == id).first()
+def get_forms_by_ids(form_ids: list[int], db: Session):
+  return db.query(models.Form).filter(models.Form.id.in_(form_ids)).all()
 
 def get_form_by_name(name: str, db: Session):
   return db.query(models.Form).filter(models.Form.name == name).first()
 
-def update_form_page(form: schemas.Form, page: int, db: Session):
-  form.page = page # Setting new page value
-
+def update_form_pages(db_forms: list[schemas.Form], forms: list[schemas.Form], db: Session):
+  
   try:
+    for db_form in db_forms:
+      # finding the first form that matches, return None if no match
+      updated_form = next((form for form in forms if form.id == db_form.id), None)
+      if updated_form:
+        db_form.page = updated_form.page
+    
     db.commit()
-    db.refresh(form)
-  except BaseException as e:
+
+    # refresh all forms
+    for db_form in db_forms:
+      db.refresh(db_form)
+
+  except Exception as e:
     db.rollback()
     raise HTTPException(
       status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-      detail=f'Failed to update the forms page: {e}'
+      detail=f"Failed to update the forms: {e}"
     )
   
-  return form
+  return db_forms

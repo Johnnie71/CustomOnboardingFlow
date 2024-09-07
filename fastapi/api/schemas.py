@@ -39,8 +39,7 @@ class FormCreate(FormBase):
     pass
 
 class FormUpdate(FormBase):
-    name: Optional[str] = None
-    page: Optional[int] = None
+    id: int
 
 class Form(FormBase):
     id: int

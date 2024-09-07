@@ -32,7 +32,7 @@ const FormStep = () => {
     }
 
     try{
-      const response = await apiClient.patch<User>(`/users/${user?.id}`, {
+      const response = await apiClient.put<User>(`/users/${user?.id}`, {
         ...formData
       })
 
@@ -47,7 +47,7 @@ const FormStep = () => {
     }
   }
 
-  const assignFormsToTheirStep = (formsData: Form) => {
+  const assignFormsToTheirStep = (formsData: Form[]) => {
 
     setStep2Forms([])
     setStep3Forms([])
@@ -131,7 +131,7 @@ const FormStep = () => {
     setFormData(user!)
     const fetchForms = async () => {
       try{
-        const response = await apiClient.get<Form>('/forms')
+        const response = await apiClient.get<Form[]>('/forms')
         assignFormsToTheirStep(response.data)
       } catch (e) {
         console.error(`There was an error fetching forms: %${e}`)

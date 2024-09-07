@@ -19,7 +19,7 @@ def get_all_users(db: Session = Depends(get_db)):
   users = crud.get_users(db=db)
   return users
 
-@router.patch("/{id}", response_model=schemas.User)
+@router.put("/{id}", response_model=schemas.User)
 def update_user_info(id: int, updates: schemas.UserUpdate, db: Session = Depends(get_db)):
   db_user = crud.get_user_by_id(db, id)
   if not db_user:

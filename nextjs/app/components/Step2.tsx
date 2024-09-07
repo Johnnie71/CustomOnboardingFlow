@@ -4,12 +4,12 @@ import React, { useState, ChangeEvent, FormEvent } from 'react'
 interface IProps {
   forms: React.ReactElement[],
   errors: string[]
-  handleSubmit: (lastStep: boolean) => void
+  handleSubmit: () => void
 }
 
 const Step2: React.FC<IProps> = ({ forms, errors, handleSubmit }) => {
   return (
-    <div className='w-full text-black flex flex-col justify-center items-center'>
+    <div className='w-[30%] rounded-lg border border-gray-400 text-black flex flex-col justify-center items-center'>
       <h1 className='font-extrabold mb-2 text-center'>Step 2</h1>
       <div>
         {forms.map((form, idx) => (
@@ -27,7 +27,7 @@ const Step2: React.FC<IProps> = ({ forms, errors, handleSubmit }) => {
         <div className='flex justify-end items-center p-4'>
           <button 
             className='w-24 h-12 bg-green-950 hover:bg-green-800 text-white rounded-xl'
-            onClick={() => handleSubmit(false)}
+            onClick={handleSubmit}
           >
             Next
           </button>

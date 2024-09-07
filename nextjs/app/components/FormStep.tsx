@@ -1,11 +1,12 @@
 'use client'
-import React, {useEffect, useState, ChangeEvent, FormEvent} from 'react'
+import React, {useEffect, useState } from 'react'
 import { useFormState, Form, User } from "./FormContext"
 import apiClient from '../lib/apiClient'
 import Step1 from "./Step1"
 import Step2 from "./Step2"
 import Step3 from "./Step3"
 import { AddressForm, BirthdayForm, AboutMeForm } from './forms'
+import Welcome from './Welcome'
 
 const FormStep = () => {
   const { user, step, handleUpdateUser, onHandleNext, setFormData, formData } = useFormState()
@@ -14,7 +15,7 @@ const FormStep = () => {
   const [requiredFields, setRequiredFields] = useState<string[] | []>([]) 
   const [errors, setErrors] = useState<string[] | []>([])
 
-  const handleSubmit = async (lastStep: boolean = false) => {
+  const handleSubmit = async () => {
     setErrors([])
 
     const newErrors: string[] = []
@@ -38,9 +39,7 @@ const FormStep = () => {
       handleUpdateUser(response.data)
       console.log(`User user updated: ${Object.entries(response.data)}`)
 
-      if (!lastStep) {
-        onHandleNext()
-      }
+      onHandleNext()
 
     } catch (err) {
       setErrors((prevError) => [...prevError, 'Failed to update user'])
@@ -150,6 +149,8 @@ const FormStep = () => {
       return <Step2 forms={step2Forms} handleSubmit={handleSubmit} errors={errors} />
     case 3:
       return <Step3 forms={step3Forms} handleSubmit={handleSubmit} errors={errors}/>
+    default:
+      return <Welcome />
   }
 }
 

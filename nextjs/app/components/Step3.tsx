@@ -5,14 +5,14 @@ import { useFormState } from '@/app/components/FormContext'
 interface IProps {
   forms: React.ReactElement[],
   errors: string[]
-  handleSubmit: (lastStep: boolean) => void
+  handleSubmit: () => void
 }
 
 const Step3: React.FC<IProps> = ({forms, errors, handleSubmit}) => {
   const { onHandleBack } = useFormState()
 
   return (
-    <div className='w-full text-black flex flex-col justify-center items-center'>
+    <div className='w-[30%] rounded-lg border border-gray-400 text-black flex flex-col justify-center items-center'>
       <h1 className='font-extrabold mb-2 text-center'>Step 3</h1>
         {forms.map((form, idx) => (
             <div key={idx} className="w-full px-2"> {/* Unique key and some spacing between forms */}
@@ -35,7 +35,7 @@ const Step3: React.FC<IProps> = ({forms, errors, handleSubmit}) => {
           </button>
           <button 
             className='w-28 h-12 bg-green-950 hover:bg-green-800 text-white rounded-xl'
-            onClick={() => handleSubmit(true)}
+            onClick={handleSubmit}
           >
             Submit
           </button>

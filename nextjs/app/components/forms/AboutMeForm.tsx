@@ -46,4 +46,6 @@ const AboutMeForm: React.FC<IProps> = ({ requiredFields, setRequiredFields }) =>
   )
 }
 
+AboutMeForm.displayName = 'About'
+
 export default AboutMeForm

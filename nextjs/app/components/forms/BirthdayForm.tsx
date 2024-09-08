@@ -43,5 +43,6 @@ const BirthdayForm: React.FC<IProps> = ({ requiredFields, setRequiredFields }) =
     </form>
   )
 }
+BirthdayForm.displayName = 'Birthday'
 
 export default BirthdayForm

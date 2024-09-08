@@ -61,7 +61,7 @@ const FormStep = () => {
     for (const value of Object.values(forms)) {
       const { name, page } = value
 
-      if (AddressForm.name.includes(name)) {
+      if (AddressForm.displayName?.includes(name)) {
         console.log("Address")
         if (page == 2) {
           console.log("Address page 2")
@@ -87,7 +87,7 @@ const FormStep = () => {
         continue
       }
 
-      if (BirthdayForm.name.includes(name)) {
+      if (BirthdayForm.displayName?.includes(name)) {
         console.log("Birthday")
         if (page == 2) {
           console.log("Birthday page 2")
@@ -113,7 +113,7 @@ const FormStep = () => {
         continue
       }
 
-      if (AboutMeForm.name.includes(name)) {
+      if (AboutMeForm.displayName?.includes(name)) {
         console.log("About")
         if (page == 2) {
           console.log("About page 2")

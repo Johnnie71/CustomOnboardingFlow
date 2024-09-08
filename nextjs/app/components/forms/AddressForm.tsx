@@ -93,4 +93,6 @@ const AddressForm: React.FC<IProps> = ({ setRequiredFields, requiredFields }) =>
 )
 }
 
+AddressForm.displayName = 'Address'
+
 export default AddressForm

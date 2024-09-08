@@ -49,16 +49,19 @@ const FormStep = () => {
     }
   }
 
-  const assignFormsToTheirStep = (formsData: Form[]) => {
+  const assignFormsToTheirStep = (forms: Form[]) => {
 
     setStep2Forms([])
     setStep3Forms([])
+    console.log("FORMS", forms)
 
-    for (const value of Object.values(formsData)) {
+    for (const value of Object.values(forms)) {
       const { name, page } = value
-      
+
       if (AddressForm.name.includes(name)) {
+        console.log("Address")
         if (page == 2) {
+          console.log("Address page 2")
           setStep2Forms((prevForms) => [
             ...prevForms, 
             <AddressForm 
@@ -68,6 +71,7 @@ const FormStep = () => {
             />
           ])
         } else {
+          console.log("Address page 3")
           setStep3Forms((prevForms) => [
             ...prevForms, 
             <AddressForm 
@@ -81,7 +85,9 @@ const FormStep = () => {
       }
 
       if (BirthdayForm.name.includes(name)) {
+        console.log("Birthday")
         if (page == 2) {
+          console.log("Birthday page 2")
           setStep2Forms((prevForms) => [
             ...prevForms, 
             <BirthdayForm 
@@ -91,6 +97,7 @@ const FormStep = () => {
             />
           ])
         } else {
+          console.log("Birthday page 3")
           setStep3Forms((prevForms) => [
             ...prevForms, 
             <BirthdayForm
@@ -104,7 +111,9 @@ const FormStep = () => {
       }
 
       if (AboutMeForm.name.includes(name)) {
+        console.log("About")
         if (page == 2) {
+          console.log("About page 2")
           setStep2Forms((prevForms) => [
             ...prevForms, 
             <AboutMeForm
@@ -114,6 +123,7 @@ const FormStep = () => {
             />
           ])
         } else {
+          console.log("About page 3")
           setStep3Forms((prevForms) => [
             ...prevForms, 
             <AboutMeForm

@@ -1,9 +1,5 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
-import crud
-import schemas
-import models
 from routers import users, forms
 from database import engine
 

@@ -7,9 +7,10 @@ import Step2 from "./Step2"
 import Step3 from "./Step3"
 import { AddressForm, BirthdayForm, AboutMeForm } from './forms'
 import Welcome from './Welcome'
+import Loader from './Loader'
 
 const FormStep = () => {
-  const { user, step, handleUpdateUser, onHandleNext, setFormData, formData } = useFormState()
+  const { user, step, handleUpdateUser, onHandleNext, setFormData, formData, loadingPrevUser } = useFormState()
   const [step2Forms, setStep2Forms] = useState<React.ReactElement[]>([])
   const [step3Forms, setStep3Forms] = useState<React.ReactElement[]>([])
   const [requiredFields, setRequiredFields] = useState<string[] | []>([]) 
@@ -142,7 +143,9 @@ const FormStep = () => {
     
   }, [user])
 
-  console.log(formData)
+  if (loadingPrevUser) {
+    return <Loader />
+  }
   
   switch(step){
     case 1:

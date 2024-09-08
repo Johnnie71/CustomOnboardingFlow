@@ -20,20 +20,19 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchForms = async () => {
       setLoadState({ loading: true, error: false });
-      try{
-        const response = await apiClient.get<Form[]>('/forms')
-        const sortedData = sortedByName(response.data)
-        setForms(sortedData)
-      } catch(e) {
-        console.error(`Failed to load forms: ${e}`)
+      try {
+        const response = await apiClient.get<Form[]>('/forms');
+        const sortedData = sortedByName(response.data);
+        setForms(sortedData);
+        setLoadState({ loading: false, error: false });
+      } catch (e) {
+        console.error(`Failed to load forms: ${e}`);
         setLoadState({ loading: false, error: true });
       }
-
-      setLoadState({ loading: false, error: false });
-    }
-
-    fetchForms()
-  },[])
+    };
+  
+    fetchForms();
+  }, []);
 
   const checkUniquePages = (newPage: number) => {
     let count = 0

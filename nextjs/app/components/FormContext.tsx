@@ -35,7 +35,8 @@ interface IFormContext {
   handleUpdateUser: (user: User) => void;
   onHandleNext: () => void;
   onHandleBack: () => void;
-  step: number
+  step: number;
+  loadingPrevUser: boolean
 }
 
 const FormContext = createContext<IFormContext | undefined>(undefined)
@@ -43,6 +44,7 @@ const FormContext = createContext<IFormContext | undefined>(undefined)
 export const FormProvider = ({ children }: IProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [step, setStep] = useState<number>(1);
+  const [loadingPrevUser, setLoadingPrevUser] = useState(false)
   const [formData, setFormData] = useState<FormData>({
     email: '',
     about: '',
@@ -82,18 +84,22 @@ export const FormProvider = ({ children }: IProps) => {
         setUser(response.data)
         setFormData(response.data)
         setStep(response.data.step)
+        setLoadingPrevUser(false)
       } catch (e) {
         console.error(`Failed to get user data from Database`)
       }
     }
 
-    if (savedUserID) fetchUserData()
+    if (savedUserID) {
+      setLoadingPrevUser(true)
+      fetchUserData()
+    }
     
   },[])
 
   
   return (
-    <FormContext.Provider value={{ onHandleBack, onHandleNext, handleSetUser, handleUpdateUser, step, user, formData, setFormData }}>
+    <FormContext.Provider value={{ onHandleBack, onHandleNext, handleSetUser, handleUpdateUser, step, user, formData, setFormData, loadingPrevUser }}>
       {children}
     </FormContext.Provider>
   )

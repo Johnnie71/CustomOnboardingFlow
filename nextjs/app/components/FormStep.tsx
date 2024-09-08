@@ -144,7 +144,7 @@ const FormStep = () => {
     
   }, [user])
 
-  if (loadingPrevUser) {
+  if (loadingPrevUser || (!step2Forms.length && !step3Forms.length)) {
     return <Loader />
   }
   

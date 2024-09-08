@@ -54,13 +54,14 @@ const Data = () => {
               <th className="px-4 py-2 text-left border-b border-gray-300 border-r">Street Address</th>
               <th className="px-4 py-2 text-left border-b border-gray-300 border-r">City</th>
               <th className="px-4 py-2 text-left border-b border-gray-300 border-r">State</th>
-              <th className="px-4 py-2 text-left border-b border-gray-300">Zip Code</th>
+              <th className="px-4 py-2 text-left border-b border-gray-300 border-r">Zip Code</th>
+              <th className="px-4 py-2 text-left border-b border-gray-300">Step</th>
             </tr>
           </thead>
           <tbody>
             {usersData &&
               usersData.map((user) => {
-                const { id, email, about, birthday, street_address, state, city, zip_code } = user;
+                const { id, email, about, birthday, street_address, state, city, zip_code, step } = user;
                 return (
                   <tr key={id} className="even:bg-gray-50 hover:bg-gray-100">
                     <td className="px-4 py-2 border-b border-gray-300 border-r">{email}</td>
@@ -69,7 +70,8 @@ const Data = () => {
                     <td className="px-4 py-2 border-b border-gray-300 border-r">{street_address}</td>
                     <td className="px-4 py-2 border-b border-gray-300 border-r">{city}</td>
                     <td className="px-4 py-2 border-b border-gray-300 border-r">{state}</td>
-                    <td className="px-4 py-2 border-b border-gray-300">{zip_code}</td>
+                    <td className="px-4 py-2 border-b border-gray-300 border-r">{zip_code}</td>
+                    <td className="px-4 py-2 border-b border-gray-300">{step}</td>
                   </tr>
                 );
               })}

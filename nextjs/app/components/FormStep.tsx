@@ -32,10 +32,10 @@ const FormStep = () => {
     }
 
     try{
+      const updatedFormData = { ...formData, step: step + 1 }; // Updating the step to persist in the db
       const response = await apiClient.put<User>(`/users/${user?.id}`, {
-        ...formData
+        ...updatedFormData
       })
-
       handleUpdateUser(response.data)
       console.log(`User user updated: ${Object.entries(response.data)}`)
 
@@ -141,6 +141,8 @@ const FormStep = () => {
     fetchForms()
     
   }, [user])
+
+  console.log(formData)
   
   switch(step){
     case 1:

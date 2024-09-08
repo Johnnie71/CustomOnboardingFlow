@@ -8,7 +8,7 @@ interface IProps {
 } 
 
 const AddressForm: React.FC<IProps> = ({ setRequiredFields, requiredFields }) => {
-  const { formData, setFormData } =useFormState()
+  const { formData, setFormData } = useFormState()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target

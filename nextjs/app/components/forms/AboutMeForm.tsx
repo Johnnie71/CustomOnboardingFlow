@@ -8,7 +8,7 @@ interface IProps {
 }
 
 const AboutMeForm: React.FC<IProps> = ({ requiredFields, setRequiredFields }) => {
-  const {formData, setFormData } = useFormState()
+  const { formData, setFormData } = useFormState()
   
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement >) => {
     const { name, value } = e.target

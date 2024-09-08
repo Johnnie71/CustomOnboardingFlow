@@ -11,6 +11,7 @@ class UserBase(BaseModel):
     city: Optional[str] = None
     state: Optional[str] = None
     zip_code: Optional[str] = None
+    step: Optional[int] = None
 
 class UserCreate(UserBase):
     password: str
@@ -29,6 +30,7 @@ class UserUpdate(UserBase):
     city: Optional[str] = None
     state: Optional[str] = None
     zip_code: Optional[str] = None
+    step: int
 
 ## Schema for forms
 class FormBase(BaseModel):

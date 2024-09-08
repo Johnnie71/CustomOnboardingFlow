@@ -13,7 +13,7 @@ const Step2: React.FC<IProps> = ({ forms, errors, handleSubmit }) => {
       <h1 className='font-extrabold mb-2 text-center'>Step 2</h1>
       <div>
         {forms.map((form, idx) => (
-          <div key={idx} className="mb-4"> {/* Unique key and some spacing between forms */}
+          <div key={idx} className="mb-4">
             {form}
           </div>
         ))}

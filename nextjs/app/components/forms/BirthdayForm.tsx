@@ -11,7 +11,7 @@ const BirthdayForm: React.FC<IProps> = ({ requiredFields, setRequiredFields }) =
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setFormData({...formData, [name]: value})
+    setFormData({...formData, [name]: value })
   }
 
   useEffect(() => {

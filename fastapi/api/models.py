@@ -14,6 +14,9 @@ class User(Base):
   state = Column(String(100))   
   zip_code = Column(String(20))
 
+  # step column to track progress
+  step = Column(Integer, default=2)
+
 class Form(Base):
   __tablename__ = 'forms'
   id = Column(Integer, primary_key=True, index=True)

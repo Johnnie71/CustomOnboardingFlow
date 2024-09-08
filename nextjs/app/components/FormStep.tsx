@@ -54,6 +54,9 @@ const FormStep = () => {
     setStep2Forms([])
     setStep3Forms([])
     console.log("FORMS", forms)
+    console.log("Address Form Name: ", AddressForm.name)
+    console.log("Birthday Form Name: ", BirthdayForm.name)
+    console.log("About Form Name: ", AboutMeForm.name)
 
     for (const value of Object.values(forms)) {
       const { name, page } = value

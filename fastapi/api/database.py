@@ -8,6 +8,10 @@ load_dotenv()
 
 DB_URL = os.getenv("DATABASE_URL")
 
+# (Heroku uses 'postgres://' which needs to be 'postgresql://')
+if DB_URL and DB_URL.startswith("postgres://"):
+    DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
+
 engine = create_engine(DB_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

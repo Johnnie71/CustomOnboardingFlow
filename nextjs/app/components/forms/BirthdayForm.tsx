@@ -1,5 +1,5 @@
 import React, {ChangeEvent, Dispatch, SetStateAction, useEffect} from 'react'
-import { User, useFormState } from '../FormContext'
+import { useFormState } from '../FormContext'
 
 interface IProps {
   requiredFields: string[],

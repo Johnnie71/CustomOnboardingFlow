@@ -96,7 +96,7 @@ const AdminPage = () => {
       <div className='w-[30%] rounded-lg border border-gray-400 text-black flex flex-col justify-center items-center p-4'>
         <h1 className='font-extrabold mb-2 text-center'>Instructions:</h1>
         <p className='text-lg'>Select the page you would like each form to be located</p>
-        <span className='font-bold mb-2'>Note: All forms can't be on one page, leaving another page empty.</span>
+        <span className='font-bold mb-2'>Note: All forms can&#39;t be on one page, leaving another page empty.</span>
         <form className='w-full' onSubmit={handleSubmit}>
           {forms.map((form) => {
             const { id, name, page } = form

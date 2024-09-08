@@ -21,6 +21,7 @@ const FormStep = () => {
 
     const newErrors: string[] = []
     for (const field of requiredFields) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const value = (formData as any)[field]
       if (!value || (typeof value == 'string' && !value.trim())){ // if value is null or whitespace create an error
         newErrors.push(`Enter something for ${field} field`)
@@ -53,7 +54,7 @@ const FormStep = () => {
     setStep2Forms([])
     setStep3Forms([])
 
-    for (const [_, value] of Object.entries(formsData)) {
+    for (const value of Object.values(formsData)) {
       const { name, page } = value
       
       if (AddressForm.name.includes(name)) {

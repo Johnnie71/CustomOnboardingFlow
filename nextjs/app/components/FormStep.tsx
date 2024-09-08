@@ -53,18 +53,12 @@ const FormStep = () => {
 
     setStep2Forms([])
     setStep3Forms([])
-    console.log("FORMS", forms)
-    console.log("Address Form Name: ", AddressForm.name)
-    console.log("Birthday Form Name: ", BirthdayForm.name)
-    console.log("About Form Name: ", AboutMeForm.name)
 
     for (const value of Object.values(forms)) {
       const { name, page } = value
 
-      if (AddressForm.displayName?.includes(name)) {
-        console.log("Address")
+      if (AddressForm.displayName === name) {
         if (page == 2) {
-          console.log("Address page 2")
           setStep2Forms((prevForms) => [
             ...prevForms, 
             <AddressForm 
@@ -74,7 +68,6 @@ const FormStep = () => {
             />
           ])
         } else {
-          console.log("Address page 3")
           setStep3Forms((prevForms) => [
             ...prevForms, 
             <AddressForm 
@@ -87,8 +80,7 @@ const FormStep = () => {
         continue
       }
 
-      if (BirthdayForm.displayName?.includes(name)) {
-        console.log("Birthday")
+      if (BirthdayForm.displayName === name) {
         if (page == 2) {
           console.log("Birthday page 2")
           setStep2Forms((prevForms) => [
@@ -100,7 +92,6 @@ const FormStep = () => {
             />
           ])
         } else {
-          console.log("Birthday page 3")
           setStep3Forms((prevForms) => [
             ...prevForms, 
             <BirthdayForm
@@ -113,10 +104,8 @@ const FormStep = () => {
         continue
       }
 
-      if (AboutMeForm.displayName?.includes(name)) {
-        console.log("About")
+      if (AboutMeForm.displayName === name) {
         if (page == 2) {
-          console.log("About page 2")
           setStep2Forms((prevForms) => [
             ...prevForms, 
             <AboutMeForm
@@ -126,7 +115,6 @@ const FormStep = () => {
             />
           ])
         } else {
-          console.log("About page 3")
           setStep3Forms((prevForms) => [
             ...prevForms, 
             <AboutMeForm

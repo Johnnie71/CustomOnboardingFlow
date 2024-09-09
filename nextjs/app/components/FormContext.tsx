@@ -60,8 +60,19 @@ export const FormProvider = ({ children }: IProps) => {
     setStep((prevValue) => prevValue + 1)
   }
 
-  const onHandleBack = () => {
+  const onHandleBack = async () => {
     setStep((prevValue) => prevValue - 1)
+
+    // Updating the step to persist in the db since user is going back one step
+    const updatedFormData = { ...formData, step: step - 1 }; 
+    try {
+      const response = await apiClient.put<User>(`/users/${user?.id}`, {
+        ...updatedFormData
+      });
+      setFormData(response.data); // Update the formData with the response from the API
+    } catch (error) {
+      console.error(`Failed to update user step in the database: ${error}`);
+    }
   }
 
   const handleSetUser = (user: User) => {

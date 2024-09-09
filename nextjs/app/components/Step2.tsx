@@ -9,7 +9,7 @@ interface IProps {
 
 const Step2: React.FC<IProps> = ({ forms, errors, handleSubmit }) => {
   return (
-    <div className='w-[30%] rounded-lg border border-gray-400 text-black flex flex-col justify-center items-center px-4'>
+    <div className='w-[30%] rounded-lg shadow-xl border border-gray-400 text-black flex flex-col justify-center items-center px-4'>
       <h1 className='font-extrabold mb-2 text-center'>Step 2</h1>
       <div>
         {forms.map((form, idx) => (

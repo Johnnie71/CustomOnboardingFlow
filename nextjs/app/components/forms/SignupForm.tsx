@@ -3,6 +3,7 @@ import React, { useState, ChangeEvent } from 'react'
 import { validateEmail } from '@/app/lib/helpers'
 import apiClient from '@/app/lib/apiClient'
 import { User, useFormState } from '../FormContext'
+import { AxiosError } from 'axios'
 
 const SignUpForm: React.FC = () => {
 
@@ -59,9 +60,15 @@ const SignUpForm: React.FC = () => {
       handleSetUser(response.data)
       console.log(`User created: ${Object.entries(response.data)}`)
       onHandleNext()
-    } catch (err: any) {
-      const error = err.response.data.detail
-      setError((prevError) => [...prevError, `${error}`])
+    } catch (err: unknown) {
+      // Type guard to check if error is AxiosError
+      if (err instanceof AxiosError && err.response) {
+        const errorDetail = err.response.data?.detail || 'An unknown error occurred';
+        setError((prevError) => [...prevError, `${errorDetail}`]);
+      } else {
+        setError((prevError) => [...prevError, 'Failed to create user due to an unknown error']);
+        console.error(err)
+      }
     }
    
   }

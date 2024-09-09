@@ -93,10 +93,12 @@ export const FormProvider = ({ children }: IProps) => {
   }
 
   const gatherRequiredFields = (newFields: string[]) => {
+    console.log('Gathering required fields:', newFields);
     setRequiredFields((prevFields) => {
-      const uniqueFields = new Set([...prevFields, ...newFields])
-      return Array.from(uniqueFields)
-    })
+      const updatedFields = [...prevFields, ...newFields];
+      console.log('Updated required fields:', updatedFields);
+      return updatedFields;
+    });
   }
 
   // checking if user was in the process of filling out the forms in prior session
@@ -123,8 +125,11 @@ export const FormProvider = ({ children }: IProps) => {
   },[])
 
   useEffect(() => {
+    console.log('Step changed:', step);
+    console.log('Clearing errors and required fields');
     setErrors([])
     setRequiredFields([])
+    console.log('Cleared requiredFields');
   }, [step])
 
   return (

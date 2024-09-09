@@ -16,6 +16,7 @@ const AboutMeForm: React.FC<IProps> = ({ gatherRequiredFields }) => {
   }
 
   useEffect(() => {
+    console.log('Component mounted. Gathering required fields.');
     gatherRequiredFields(fields)
   }, [])
 

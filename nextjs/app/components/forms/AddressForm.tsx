@@ -16,7 +16,8 @@ const AddressForm: React.FC<IProps> = ({ gatherRequiredFields }) => {
 
   const fields = ['street_address', 'city', 'state', 'zip_code']
 
-  useEffect(() => { 
+  useEffect(() => {
+    console.log('Component mounted. Gathering required fields.');
     gatherRequiredFields(fields)
   }, [])
   

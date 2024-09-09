@@ -1,13 +1,13 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useEffect} from 'react'
+import React, {ChangeEvent, useEffect} from 'react'
 import { useFormState } from '../FormContext'
 
 interface IProps {
-  requiredFields: string[],
-  setRequiredFields: Dispatch<SetStateAction<string[]>>,
+  gatherRequiredFields: (fields: string[]) => void;
 }
 
-const BirthdayForm: React.FC<IProps> = ({ requiredFields, setRequiredFields }) => {
+const BirthdayForm: React.FC<IProps> = ({ gatherRequiredFields }) => {
   const { formData, setFormData } = useFormState()
+  const fields = ['birthday']
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -15,18 +15,8 @@ const BirthdayForm: React.FC<IProps> = ({ requiredFields, setRequiredFields }) =
   }
 
   useEffect(() => {
-    if (requiredFields.length > 0) {
-      setRequiredFields([])
-    }
-
-    setRequiredFields(prevFields => {
-        if(!prevFields.includes('birthday')) {
-          return [...prevFields, 'birthday']
-        }
-
-        return prevFields
-      })
-  }, [setRequiredFields])
+    gatherRequiredFields(fields)
+  }, [])
 
   return (
     <form className='text-black flex flex-col rounded-lg w-full'>

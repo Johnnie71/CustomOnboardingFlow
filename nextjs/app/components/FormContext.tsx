@@ -37,6 +37,8 @@ interface IFormContext {
   onHandleBack: () => void;
   step: number;
   loadingPrevUser: boolean;
+  requiredFields: string[] | [];
+  gatherRequiredFields: (fields: string[]) => void;
   errors: string[] | [];
   setErrors: React.Dispatch<React.SetStateAction<string[] | []>>
 }
@@ -47,6 +49,7 @@ export const FormProvider = ({ children }: IProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingPrevUser, setLoadingPrevUser] = useState(false)
   const [step, setStep] = useState<number>(1);
+  const [requiredFields, setRequiredFields] = useState<string[] | []>([])
   const [errors, setErrors] = useState<string[] | []>([])
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -64,7 +67,6 @@ export const FormProvider = ({ children }: IProps) => {
   }
 
   const onHandleBack = async () => {
-    setErrors([])
     setStep((prevValue) => prevValue - 1)
 
     // Updating the step to persist in the db since user is going back one step
@@ -90,6 +92,13 @@ export const FormProvider = ({ children }: IProps) => {
     setUser((prevData) => ({ ...prevData, ...updatedData }))
   }
 
+  const gatherRequiredFields = (newFields: string[]) => {
+    setRequiredFields((prevFields) => {
+      const uniqueFields = new Set([...prevFields, ...newFields])
+      return Array.from(uniqueFields)
+    })
+  }
+
   // checking if user was in the process of filling out the forms in prior session
   useEffect(() => {
     const savedUserID = localStorage.getItem('onboardingID')
@@ -113,7 +122,11 @@ export const FormProvider = ({ children }: IProps) => {
     
   },[])
 
-  
+  useEffect(() => {
+    setErrors([])
+    setRequiredFields([])
+  }, [step])
+
   return (
     <FormContext.Provider value={{ 
       onHandleBack, 
@@ -127,6 +140,8 @@ export const FormProvider = ({ children }: IProps) => {
       loadingPrevUser, 
       errors, 
       setErrors, 
+      requiredFields, 
+      gatherRequiredFields 
     }}>
       {children}
     </FormContext.Provider>

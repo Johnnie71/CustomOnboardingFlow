@@ -16,9 +16,8 @@ export interface ISteps {
 }
 
 const FormStep = () => {
-  const { user, step, handleUpdateUser, onHandleNext, setFormData, formData, loadingPrevUser, errors, setErrors } = useFormState()
+  const { user, step, handleUpdateUser, onHandleNext, setFormData, formData, loadingPrevUser, errors, setErrors, requiredFields, gatherRequiredFields } = useFormState()
   const [stepsForms, setStepsForms] = useState<ISteps[] | []>([])
-  const [requiredFields, setRequiredFields] = useState<string[] | []>([])
 
   const handleSubmit = async () => {
     setErrors([])
@@ -73,8 +72,7 @@ const FormStep = () => {
       if (page == 2) {
         const component: ISteps = {stepNumber: 2, component: <FormComponent
           key={name}
-          requiredFields={requiredFields} 
-          setRequiredFields={setRequiredFields} 
+          gatherRequiredFields={gatherRequiredFields} 
         />}
         setStepsForms((prevForms) => [
           ...prevForms, 
@@ -83,8 +81,7 @@ const FormStep = () => {
       } else {
         const component: ISteps = {stepNumber: 3, component: <FormComponent
           key={name}
-          requiredFields={requiredFields} 
-          setRequiredFields={setRequiredFields} 
+          gatherRequiredFields={gatherRequiredFields} 
         />}
         setStepsForms((prevForms) => [
           ...prevForms, 

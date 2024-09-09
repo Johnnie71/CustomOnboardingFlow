@@ -1,14 +1,14 @@
 'use client'
-import React, { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 import { useFormState } from '../FormContext'
 
 interface IProps {
-  requiredFields: string[],
-  setRequiredFields: Dispatch<SetStateAction<string[]>>
+  gatherRequiredFields: (fields: string[]) => void;
 }
 
-const AboutMeForm: React.FC<IProps> = ({ requiredFields, setRequiredFields }) => {
+const AboutMeForm: React.FC<IProps> = ({ gatherRequiredFields }) => {
   const { formData, setFormData } = useFormState()
+  const fields = ['about']
   
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement >) => {
     const { name, value } = e.target
@@ -16,14 +16,8 @@ const AboutMeForm: React.FC<IProps> = ({ requiredFields, setRequiredFields }) =>
   }
 
   useEffect(() => {
-    setRequiredFields(prevFields => {
-        if(!prevFields.includes('about')) {
-          return [...prevFields, 'about']
-        }
-
-        return prevFields
-      })
-  }, [setRequiredFields])
+    gatherRequiredFields(fields)
+  }, [])
 
   return (
     <form className='text-black flex flex-col rounded-lg w-full'>

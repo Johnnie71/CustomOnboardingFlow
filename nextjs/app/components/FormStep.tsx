@@ -23,6 +23,8 @@ const FormStep = () => {
     setErrors([])
 
     const newErrors: string[] = []
+    console.log("Required: ", requiredFields)
+    console.log('FormData: ', formData)
     for (const field of requiredFields) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const value = (formData as any)[field]

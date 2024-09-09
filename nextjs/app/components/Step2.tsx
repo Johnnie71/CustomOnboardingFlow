@@ -9,8 +9,7 @@ interface IProps {
 
 const Step2: React.FC<IProps> = ({ forms, errors, handleSubmit }) => {
   return (
-    <div className='w-[80%] md:w-[30%] rounded-lg shadow-xl border border-gray-400 text-black flex flex-col justify-center items-center px-4'>
-      <h1 className='font-extrabold mb-2 text-center'>Step 2</h1>
+    <div className='w-[80%] md:w-[30%] rounded-lg shadow-xl border border-gray-400 text-black flex flex-col justify-center items-center p-4'>
       <div>
         {forms.map((form, idx) => (
           <div key={idx} className="mb-4">
@@ -24,7 +23,7 @@ const Step2: React.FC<IProps> = ({ forms, errors, handleSubmit }) => {
             ))}
           </div>
         )}
-        <div className='flex justify-end items-center p-4'>
+        <div className='flex justify-end items-center'>
           <button 
             className='w-24 h-12 bg-green-950 hover:bg-green-800 text-white rounded-xl'
             onClick={handleSubmit}

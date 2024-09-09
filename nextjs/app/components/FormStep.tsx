@@ -8,11 +8,16 @@ import Step3 from "./Step3"
 import { AddressForm, BirthdayForm, AboutMeForm } from './forms'
 import Welcome from './Welcome'
 import Loader from './Loader'
+import Stepper from './forms/Stepper'
+
+export interface ISteps {
+  stepNumber: number
+  component: React.ReactElement
+}
 
 const FormStep = () => {
   const { user, step, handleUpdateUser, onHandleNext, setFormData, formData, loadingPrevUser } = useFormState()
-  const [step2Forms, setStep2Forms] = useState<React.ReactElement[]>([])
-  const [step3Forms, setStep3Forms] = useState<React.ReactElement[]>([])
+  const [stepsForms, setStepsForms] = useState<ISteps[] | []>([])
   const [requiredFields, setRequiredFields] = useState<string[] | []>([]) 
   const [errors, setErrors] = useState<string[] | []>([])
 
@@ -51,83 +56,44 @@ const FormStep = () => {
 
   const assignFormsToTheirStep = (forms: Form[]) => {
 
-    setStep2Forms([])
-    setStep3Forms([])
+    setStepsForms([])
 
     for (const value of Object.values(forms)) {
       const { name, page } = value
 
-      if (AddressForm.displayName === name) {
-        if (page == 2) {
-          setStep2Forms((prevForms) => [
-            ...prevForms, 
-            <AddressForm 
-              key='AddressForm'
-              requiredFields={requiredFields} 
-              setRequiredFields={setRequiredFields} 
-            />
-          ])
-        } else {
-          setStep3Forms((prevForms) => [
-            ...prevForms, 
-            <AddressForm 
-              key='AddressForm'
-              requiredFields={requiredFields} 
-              setRequiredFields={setRequiredFields} 
-            />
-          ])
-        }
+      const FormComponent = 
+                    name == AddressForm.displayName ? AddressForm :
+                    name == AboutMeForm.displayName ? AboutMeForm :
+                    name == BirthdayForm.displayName ? BirthdayForm : null
+
+      if (!FormComponent) {
+        console.error(`No form component found for ${name}`)
         continue
       }
 
-      if (BirthdayForm.displayName === name) {
-        if (page == 2) {
-          console.log("Birthday page 2")
-          setStep2Forms((prevForms) => [
-            ...prevForms, 
-            <BirthdayForm 
-              key='BirthdayForm'
-              requiredFields={requiredFields} 
-              setRequiredFields={setRequiredFields} 
-            />
-          ])
-        } else {
-          setStep3Forms((prevForms) => [
-            ...prevForms, 
-            <BirthdayForm
-              key='BirthdayForm'
-              requiredFields={requiredFields} 
-              setRequiredFields={setRequiredFields} 
-            />
-          ])
-        }
-        continue
+      if (page == 2) {
+        const component: ISteps = {stepNumber: 2, component: <FormComponent
+          key={name}
+          requiredFields={requiredFields} 
+          setRequiredFields={setRequiredFields} 
+        />}
+        setStepsForms((prevForms) => [
+          ...prevForms, 
+          component
+        ])
+      } else {
+        const component: ISteps = {stepNumber: 3, component: <FormComponent
+          key={name}
+          requiredFields={requiredFields} 
+          setRequiredFields={setRequiredFields} 
+        />}
+        setStepsForms((prevForms) => [
+          ...prevForms, 
+          component
+        ])
       }
-
-      if (AboutMeForm.displayName === name) {
-        if (page == 2) {
-          setStep2Forms((prevForms) => [
-            ...prevForms, 
-            <AboutMeForm
-            key='AboutMeForm'  
-            requiredFields={requiredFields} 
-            setRequiredFields={setRequiredFields}
-            />
-          ])
-        } else {
-          setStep3Forms((prevForms) => [
-            ...prevForms, 
-            <AboutMeForm
-            key='AboutMeForm'  
-            requiredFields={requiredFields} 
-            setRequiredFields={setRequiredFields}
-            />
-          ])
-        }
-        continue
-      }
-
     }
+
   }
 
   useEffect(() => {
@@ -145,20 +111,40 @@ const FormStep = () => {
     
   }, [user])
 
-  if (loadingPrevUser || (!step2Forms.length && !step3Forms.length)) {
+  if (loadingPrevUser || (!stepsForms.length)) {
     return <Loader />
   }
-  
-  switch(step){
-    case 1:
-      return <Step1 />
-    case 2:
-      return <Step2 forms={step2Forms} handleSubmit={handleSubmit} errors={errors} />
-    case 3:
-      return <Step3 forms={step3Forms} handleSubmit={handleSubmit} errors={errors}/>
-    default:
-      return <Welcome />
+
+  const Steps = (step: number) => {
+
+    const step2Forms: React.ReactElement[] = stepsForms
+      .filter((form) => form.stepNumber === 2)
+      .map((form) => form.component);
+
+    const step3Forms: React.ReactElement[] = stepsForms
+      .filter((form) => form.stepNumber === 3)
+      .map((form) => form.component); 
+
+    switch(step){
+      case 1:
+        return <Step1 />
+      case 2:
+        return <Step2 forms={step2Forms} handleSubmit={handleSubmit} errors={errors} />
+      case 3:
+        return <Step3 forms={step3Forms} handleSubmit={handleSubmit} errors={errors}/>
+      default:
+        return <Welcome />
+    }
   }
+
+  return (
+    <div className='w-full h-[100%] flex flex-col justify-center items-center'>
+      <Stepper stepsForms={stepsForms} />
+      {Steps(step)}
+    </div>
+  )
+  
+  
 }
 
 export default FormStep

@@ -98,7 +98,7 @@ export const FormProvider = ({ children }: IProps) => {
         setLoadingPrevUser(false)
       } catch (e) {
         setLoadingPrevUser(false)
-        console.error(`Failed to get user data from Database`)
+        console.error(`Failed to get user data from Database ${e}`)
       }
     }
 

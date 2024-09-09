@@ -59,9 +59,9 @@ const SignUpForm: React.FC = () => {
       handleSetUser(response.data)
       console.log(`User created: ${Object.entries(response.data)}`)
       onHandleNext()
-    } catch (err) {
-      setError((prevError) => [...prevError, 'Failed to create user'])
-      console.error(`API error: ${err}`)
+    } catch (err: any) {
+      const error = err.response.data.detail
+      setError((prevError) => [...prevError, `${error}`])
     }
    
   }

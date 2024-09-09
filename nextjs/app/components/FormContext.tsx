@@ -36,15 +36,18 @@ interface IFormContext {
   onHandleNext: () => void;
   onHandleBack: () => void;
   step: number;
-  loadingPrevUser: boolean
+  loadingPrevUser: boolean;
+  errors: string[] | [];
+  setErrors: React.Dispatch<React.SetStateAction<string[] | []>>
 }
 
 const FormContext = createContext<IFormContext | undefined>(undefined)
 
 export const FormProvider = ({ children }: IProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const [step, setStep] = useState<number>(1);
   const [loadingPrevUser, setLoadingPrevUser] = useState(false)
+  const [step, setStep] = useState<number>(1);
+  const [errors, setErrors] = useState<string[] | []>([])
   const [formData, setFormData] = useState<FormData>({
     email: '',
     about: '',
@@ -61,6 +64,7 @@ export const FormProvider = ({ children }: IProps) => {
   }
 
   const onHandleBack = async () => {
+    setErrors([])
     setStep((prevValue) => prevValue - 1)
 
     // Updating the step to persist in the db since user is going back one step
@@ -111,7 +115,19 @@ export const FormProvider = ({ children }: IProps) => {
 
   
   return (
-    <FormContext.Provider value={{ onHandleBack, onHandleNext, handleSetUser, handleUpdateUser, step, user, formData, setFormData, loadingPrevUser }}>
+    <FormContext.Provider value={{ 
+      onHandleBack, 
+      onHandleNext, 
+      handleSetUser, 
+      handleUpdateUser, 
+      step, 
+      user, 
+      formData, 
+      setFormData, 
+      loadingPrevUser, 
+      errors, 
+      setErrors, 
+    }}>
       {children}
     </FormContext.Provider>
   )

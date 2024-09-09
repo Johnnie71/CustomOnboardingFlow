@@ -16,10 +16,9 @@ export interface ISteps {
 }
 
 const FormStep = () => {
-  const { user, step, handleUpdateUser, onHandleNext, setFormData, formData, loadingPrevUser } = useFormState()
+  const { user, step, handleUpdateUser, onHandleNext, setFormData, formData, loadingPrevUser, errors, setErrors } = useFormState()
   const [stepsForms, setStepsForms] = useState<ISteps[] | []>([])
-  const [requiredFields, setRequiredFields] = useState<string[] | []>([]) 
-  const [errors, setErrors] = useState<string[] | []>([])
+  const [requiredFields, setRequiredFields] = useState<string[] | []>([])
 
   const handleSubmit = async () => {
     setErrors([])

@@ -16,10 +16,6 @@ const AboutMeForm: React.FC<IProps> = ({ requiredFields, setRequiredFields }) =>
   }
 
   useEffect(() => {
-    if (requiredFields.length > 0) {
-      setRequiredFields([])
-    }
-    
     setRequiredFields(prevFields => {
         if(!prevFields.includes('about')) {
           return [...prevFields, 'about']

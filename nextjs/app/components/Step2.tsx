@@ -3,8 +3,8 @@ import React from 'react'
 
 interface IProps {
   forms: React.ReactElement[],
-  errors: string[]
-  handleSubmit: () => void
+  errors: string[],
+  handleSubmit: () => void,
 }
 
 const Step2: React.FC<IProps> = ({ forms, errors, handleSubmit }) => {

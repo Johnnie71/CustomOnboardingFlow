@@ -2,11 +2,11 @@ import React, {ChangeEvent, useEffect} from 'react'
 import { useFormState } from '../FormContext'
 
 interface IProps {
-  gatherRequiredFields: (fields: string[]) => void;
+  gatherRequiredFields: (fields: string[], currStep: number) => void;
 }
 
 const BirthdayForm: React.FC<IProps> = ({ gatherRequiredFields }) => {
-  const { formData, setFormData } = useFormState()
+  const { formData, setFormData, step } = useFormState()
   const fields = ['birthday']
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -15,8 +15,7 @@ const BirthdayForm: React.FC<IProps> = ({ gatherRequiredFields }) => {
   }
 
   useEffect(() => {
-    console.log('Component mounted. Gathering required fields.');
-    gatherRequiredFields(fields)
+    gatherRequiredFields(fields, step)
   }, [])
 
   return (

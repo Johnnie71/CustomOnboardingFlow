@@ -27,6 +27,8 @@ export interface Form {
   name: string
 }
 
+type RequiredFields = Record<number, string[]>;
+
 interface IFormContext {
   user: User | null;
   formData: FormData;
@@ -37,8 +39,8 @@ interface IFormContext {
   onHandleBack: () => void;
   step: number;
   loadingPrevUser: boolean;
-  requiredFields: string[] | [];
-  gatherRequiredFields: (fields: string[]) => void;
+  requiredFields: RequiredFields;
+  gatherRequiredFields: (fields: string[], currStep: number) => void;
   errors: string[] | [];
   setErrors: React.Dispatch<React.SetStateAction<string[] | []>>
 }
@@ -49,7 +51,11 @@ export const FormProvider = ({ children }: IProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingPrevUser, setLoadingPrevUser] = useState(false)
   const [step, setStep] = useState<number>(1);
-  const [requiredFields, setRequiredFields] = useState<string[] | []>([])
+  // Setting state for different steps with their overall input requirements for each
+  const [requiredFields, setRequiredFields] = useState<RequiredFields>({
+    2: [],
+    3: []
+  })
   const [errors, setErrors] = useState<string[] | []>([])
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -63,10 +69,12 @@ export const FormProvider = ({ children }: IProps) => {
   });
 
   const onHandleNext = () => {
+    setErrors([])
     setStep((prevValue) => prevValue + 1)
   }
 
   const onHandleBack = async () => {
+    setErrors([])
     setStep((prevValue) => prevValue - 1)
 
     // Updating the step to persist in the db since user is going back one step
@@ -92,14 +100,15 @@ export const FormProvider = ({ children }: IProps) => {
     setUser((prevData) => ({ ...prevData, ...updatedData }))
   }
 
-  const gatherRequiredFields = (newFields: string[]) => {
-    console.log('Gathering required fields:', newFields);
+  const gatherRequiredFields = (newFields: string[], currStep: number) => {
     setRequiredFields((prevFields) => {
-      const updatedFields = [...prevFields, ...newFields];
-      console.log('Updated required fields:', updatedFields);
-      return updatedFields;
+      const updatedFieldsForStep = Array.from(new Set([...(prevFields[currStep] || []), ...newFields]));
+      return {
+        ...prevFields,
+        [currStep]: updatedFieldsForStep 
+      };
     });
-  }
+  };
 
   // checking if user was in the process of filling out the forms in prior session
   useEffect(() => {
@@ -123,14 +132,6 @@ export const FormProvider = ({ children }: IProps) => {
     }
     
   },[])
-
-  useEffect(() => {
-    console.log('Step changed:', step);
-    console.log('Clearing errors and required fields');
-    setErrors([])
-    setRequiredFields([])
-    console.log('Cleared requiredFields');
-  }, [step])
 
   return (
     <FormContext.Provider value={{ 

@@ -23,9 +23,7 @@ const FormStep = () => {
     setErrors([])
 
     const newErrors: string[] = []
-    console.log("Required: ", requiredFields)
-    console.log('FormData: ', formData)
-    for (const field of requiredFields) {
+    for (const field of requiredFields[step]) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const value = (formData as any)[field]
       if (!value || (typeof value == 'string' && !value.trim())){ // if value is null or whitespace create an error

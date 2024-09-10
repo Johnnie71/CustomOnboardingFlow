@@ -3,11 +3,11 @@ import React, { ChangeEvent, useEffect } from 'react'
 import { useFormState } from '../FormContext'
 
 interface IProps {
-  gatherRequiredFields: (fields: string[]) => void;
+  gatherRequiredFields: (fields: string[], currStep: number) => void;
 } 
 
 const AddressForm: React.FC<IProps> = ({ gatherRequiredFields }) => {
-  const { formData, setFormData } = useFormState()
+  const { formData, setFormData, step } = useFormState()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -17,8 +17,7 @@ const AddressForm: React.FC<IProps> = ({ gatherRequiredFields }) => {
   const fields = ['street_address', 'city', 'state', 'zip_code']
 
   useEffect(() => {
-    console.log('Component mounted. Gathering required fields.');
-    gatherRequiredFields(fields)
+    gatherRequiredFields(fields, step)
   }, [])
   
   return (
